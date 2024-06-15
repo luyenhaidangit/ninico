@@ -20,11 +20,15 @@ namespace Ninico.Data.Entities
 
         public int Order { get; set; }
 
+        public string Image { get; set; }
+
         #region Relationship
         [ForeignKey("ParentId")]
         public virtual ProductCategory? Parent { get; set; }
 
-        public virtual ICollection<ProductCategory>? Childrens { get; set; }
+        public virtual ICollection<ProductCategory> Childrens { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
         #endregion
     }
 }

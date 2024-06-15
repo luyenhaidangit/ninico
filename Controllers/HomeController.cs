@@ -14,6 +14,7 @@ namespace Ninico.Controllers
         public int SlideTypeStatic = 2;
         public int MaxSlideTypeDynamic = 5;
         public int MaxTypeStatic = 2;
+        public int MaxProductCategory = 6;
 
         public HomeController(ApplicationDbContext dbContext)
         {
@@ -46,10 +47,27 @@ namespace Ninico.Controllers
                 .Take(MaxTypeStatic)
                 .ToListAsync();
 
+            //Product categories
+            var productCategories = await _dbContext.ProductCategories
+                .Include(pc => pc.Childrens)
+                .Where(pc => pc.ParentId == null)
+                .OrderByDescending(pc => pc.Order)
+                .Select(pc => new ProductCategoryHomeViewModel
+                {
+                    Name = pc.Name,
+                    Slug = pc.Slug,
+                    Image = pc.Image,
+                    ProductCount = pc.Products.Count(),
+                })
+                .Take(MaxProductCategory)
+                .ToListAsync();
+
+
             var viewModel = new HomeViewModel()
             {
                 DynamicSlides = dynamicSlides,
-                StaticSlides = staticSlides
+                StaticSlides = staticSlides,
+                ProductCategories = productCategories,
             };
 
             return View(viewModel);

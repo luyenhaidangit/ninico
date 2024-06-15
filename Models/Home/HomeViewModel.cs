@@ -7,5 +7,7 @@ namespace Ninico.Models.Home
         public List<SlideHomeViewModel>? DynamicSlides { get; set; }
 
         public List<SlideHomeViewModel>? StaticSlides { get; set; }
+
+        public List<ProductCategoryHomeViewModel> ProductCategories { get; set; }
     }
 }

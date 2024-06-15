@@ -1,4 +1,4 @@
-﻿namespace Ninico.Models.ProductCategory
+﻿namespace Ninico.Models.Components.Header
 {
     public class ProductCategoryHeaderViewModel
     {

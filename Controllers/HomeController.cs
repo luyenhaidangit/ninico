@@ -1,34 +1,58 @@
-﻿using Ninico.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Ninico.Data.EntityFrameworkCore;
+using Ninico.Models.Components.Header;
+using Ninico.Models.Home;
 
 namespace Ninico.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public int SlideTypeDynamic = 1;
+        public int SlideTypeStatic = 2;
+        public int MaxSlideTypeDynamic = 5;
+        public int MaxTypeStatic = 2;
+
+        public HomeController(ApplicationDbContext dbContext)
         {
-            _logger = logger;
+            _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            //Title
             ViewBag.Title = "Ninico - Thương hiệu thời trang";
 
-            return View();
-        }
+            //Slides
+            var dynamicSlides = await _dbContext.Slides
+                .Where(x => x.Type == SlideTypeDynamic)
+                .Select(pc => new SlideHomeViewModel
+                {
+                    Image = pc.Image,
+                    Content = pc.Content,
+                })
+                .Take(MaxSlideTypeDynamic)
+                .ToListAsync();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var staticSlides = await _dbContext.Slides
+                .Where(x => x.Type == SlideTypeStatic)
+                .Select(pc => new SlideHomeViewModel
+                {
+                    Image = pc.Image,
+                    Content = pc.Content,
+                })
+                .Take(MaxTypeStatic)
+                .ToListAsync();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var viewModel = new HomeViewModel()
+            {
+                DynamicSlides = dynamicSlides,
+                StaticSlides = staticSlides
+            };
+
+            return View(viewModel);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Ninico.Data.Entities;
-using Ninico.Models.ProductCategory;
 
-namespace Ninico.Models.Components
+namespace Ninico.Models.Components.Header
 {
     public class HeaderViewModel
     {

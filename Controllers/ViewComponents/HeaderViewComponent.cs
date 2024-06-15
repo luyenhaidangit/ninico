@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ninico.Data.EntityFrameworkCore;
-using Ninico.Helpers;
-using Ninico.Models.Components;
-using Ninico.Models.ProductCategory;
+using Ninico.Models.Components.Header;
 
 namespace Ninico.Controllers.ViewComponents
 {
@@ -42,7 +40,7 @@ namespace Ninico.Controllers.ViewComponents
                         Icon = c.Icon
                     }).ToList()
                 })
-                .Take(7)
+                .Take(MaxProductCategory)
                 .ToListAsync();
 
             var viewModel = new HeaderViewModel()

@@ -12,6 +12,7 @@ namespace Ninico.Data.EntityFrameworkCore
 
         public DbSet<Config> Configs { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Slide> Slides { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@Html.Partial("_Head.cshtml")
+<body>
+    <!-- preloader -->
+    @Html.Partial("_Preloader.cshtml")
+    <!-- preloader end  -->
+
+    <!-- Scroll-top -->
+    @Html.Partial("_ScrollTop.cshtml")
+    <!-- Scroll-top-end-->
+
+    <!-- header-area-start -->
+    @await Component.InvokeAsync("Header")
+    <!-- header-area-end -->
+
+   <main role="main">
+        @RenderBody()
+   </main>
+
+    <!-- footer-area-start -->
+    @Html.Partial("_Footer.cshtml")
+    <!-- footer-area-end -->
+
+    @Html.Partial("_Script.cshtml")
+</body>
+</html>
